@@ -1,0 +1,94 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Conversion dictionary for damages
+conversion = {"M": 1_000_000, "B": 1_000_000_000}
+
+# Function to clean and convert damage data
+def convert_damages(damages):
+    updated_damages = []
+    for damage in damages:
+        if damage == "Damages not recorded":
+            updated_damages.append(0)
+        else:
+            damage = damage.strip().replace("$", "").replace(",", "")
+            number = float(damage[:-1])
+            unit = damage[-1]
+            updated_damages.append(number * conversion[unit])
+    return updated_damages
+
+# Create the hurricane dictionary
+def create_hurricane_dictionary(names, months, years, max_sustained_winds, areas_affected, damages, deaths):
+    hurricane_data = {}
+    for i in range(len(names)):
+        hurricane_info = {
+            "Name": names[i],
+            "Month": months[i],
+            "Year": years[i],
+            "Max Sustained Wind": max_sustained_winds[i],
+            "Areas Affected": areas_affected[i],
+            "Damage": damages[i],
+            "Deaths": deaths[i]
+        }
+        hurricane_data[names[i]] = hurricane_info
+    return hurricane_data
+
+# Function to visualize most affected areas
+def plot_most_affected_areas(hurricane_dict):
+    area_count = {}
+    for hurricane in hurricane_dict.values():
+        for area in hurricane['Areas Affected']:
+            if area not in area_count:
+                area_count[area] = 1
+            else:
+                area_count[area] += 1
+
+    # Plot
+    plt.figure(figsize=(15, 5))
+    sns.barplot(x=list(area_count.keys()), y=list(area_count.values()))
+    plt.xticks(rotation=90)
+    plt.title('Most Affected Areas by Hurricanes')
+    plt.xlabel('Area')
+    plt.ylabel('Number of Hurricanes')
+    plt.show()
+
+# Function to visualize deadliest hurricanes
+def plot_deadliest_hurricanes(hurricane_dict):
+    death_data = sorted(hurricane_dict.values(), key=lambda x: x['Deaths'], reverse=True)[:10]
+    names = [h['Name'] for h in death_data]
+    deaths = [h['Deaths'] for h in death_data]
+
+    # Plot
+    plt.figure(figsize=(10, 5))
+    sns.barplot(x=names, y=deaths)
+    plt.xticks(rotation=45)
+    plt.title('Top 10 Deadliest Hurricanes')
+    plt.xlabel('Hurricane Name')
+    plt.ylabel('Deaths')
+    plt.show()
+
+# Function to visualize most costly hurricanes
+def plot_most_costly_hurricanes(hurricane_dict):
+    costly_data = sorted(hurricane_dict.values(), key=lambda x: x['Damage'], reverse=True)[:10]
+    names = [h['Name'] for h in costly_data]
+    damages = [h['Damage'] for h in costly_data]
+
+    # Plot
+    plt.figure(figsize=(10, 5))
+    sns.barplot(x=names, y=damages)
+    plt.xticks(rotation=45)
+    plt.title('Top 10 Most Costly Hurricanes')
+    plt.xlabel('Hurricane Name')
+    plt.ylabel('Damage ($B)')
+    plt.show()
+
+# Convert damage data
+damages = convert_damages(damages)
+
+# Create hurricane dictionary
+hurricane_dict = create_hurricane_dictionary(names, months, years, max_sustained_winds, areas_affected, damages, deaths)
+
+# Generate the visualizations
+plot_most_affected_areas(hurricane_dict)
+plot_deadliest_hurricanes(hurricane_dict)
+plot_most_costly_hurricanes(hurricane_dict)
