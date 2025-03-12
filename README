@@ -1,0 +1,40 @@
+# Hurricane Data Analysis
+
+## Project Overview
+This project analyzes historical hurricane data, categorizing storms by mortality, damage, and affected areas. It also generates visualizations using Matplotlib and Seaborn to provide insights into the most devastating hurricanes.
+
+## Features
+- Data cleaning and processing
+- Categorization by mortality and damage
+- Analysis of most affected areas
+- Visualizations for key insights
+
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/hurricane-analysis.git
+   cd hurricane-analysis
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Running the Script
+Run the script using:
+```bash
+python hurricane_analysis.py
+```
+
+## Visualizations
+The script generates bar charts for:
+- Most affected areas
+- Deadliest hurricanes
+- Most costly hurricanes
+
+## Contributing
+Feedback and contributions are welcome! Feel free to open issues or submit pull requests.
+
+## License
+This project is open-source under the MIT License.
+
